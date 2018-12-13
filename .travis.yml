@@ -4,8 +4,7 @@ language: python
 
 env:
   - IMAGE_NAME=eloo/raspberrypi3-homeassistant-git
-  - DOCKER_USERNAME=username
-  - DOCKER_PASSWORD=password
+  - VERSION=0.84.1
   
 services:
   - docker
@@ -17,12 +16,12 @@ before_install:
 script:
   - docker run -d eloo/raspberrypi3-homeassistant-git /bin/sh -c "hass --version"
 
-#before_deploy:
-#  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-#  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
-#  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${version}"
-#deploy:
-#  provider: script
-#  script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${version}"
-#  on:
-#    branch: master
+before_deploy:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
+  - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${VERSION}"
+deploy:
+  provider: script
+  script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${VERSION}"
+  on:
+    branch: master
