@@ -10,4 +10,4 @@ before_install:
   - docker build -t eloo/raspberrypi3-homeassistant-git .
 
 script:
-  - docker run -d carlad/sinatra /bin/sh -c "hass --version"
+  - docker run -d eloo/raspberrypi3-homeassistant-git /bin/sh -c "hass --version"
