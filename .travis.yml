@@ -1,9 +1,12 @@
+sudo: required
+
 language: python
 
 services:
   - docker
 
 before_install:
+  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   - docker build -t eloo/raspberrypi3-homeassistant-git .
 
 script:
