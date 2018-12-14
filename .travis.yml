@@ -12,9 +12,11 @@ services:
 
 before_install:
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+  
+before_script:
+  - echo "Build HA version $VERSION"
 
 script:
-  - echo "Build HA version $VERSION"
   - docker build -t "${IMAGE_NAME}" .
   - docker run -d eloo/raspberrypi3-homeassistant-git /bin/sh -c "hass --version"
   - docker run -d eloo/raspberrypi3-homeassistant-git /bin/sh -c "git --version"
