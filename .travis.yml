@@ -11,6 +11,7 @@ services:
   - docker
 
 before_install:
+  - echo Build HA version: $VERSION
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   - docker build -t "${IMAGE_NAME}" .
 
