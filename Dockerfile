@@ -1,4 +1,4 @@
-FROM homeassistant/raspberrypi3-homeassistant:0.91.3
+FROM homeassistant/raspberrypi3-homeassistant:0.91.4
 
 RUN apk add --update \
     git \
