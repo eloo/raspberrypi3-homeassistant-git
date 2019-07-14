@@ -22,7 +22,7 @@ script:
   - docker run -d eloo/raspberrypi3-homeassistant-git /bin/sh -c "git --version"
 
 before_deploy:
-  - echo "$DOCKER_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
   - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
   - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${VERSION}"
   
