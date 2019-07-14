@@ -2,6 +2,8 @@ sudo: required
 
 language: python
 
+python: 3.6
+
 env:
   global:
     - IMAGE_NAME=eloo/raspberrypi3-homeassistant-git 
