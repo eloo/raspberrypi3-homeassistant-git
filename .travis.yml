@@ -5,16 +5,19 @@ language: python
 env:
   global:
     - IMAGE_NAME=eloo/raspberrypi3-homeassistant-git 
-    - VERSION=0.84.1
+    - VERSION=`head -n 1 Dockerfile | awk -F ":" '{print $NF}'`
   
 services:
   - docker
 
 before_install:
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  - docker build -t "${IMAGE_NAME}" .
+  
+before_script:
+  - echo "Build HA version $VERSION"
 
 script:
+  - docker build -t "${IMAGE_NAME}" .
   - docker run -d eloo/raspberrypi3-homeassistant-git /bin/sh -c "hass --version"
   - docker run -d eloo/raspberrypi3-homeassistant-git /bin/sh -c "git --version"
 
@@ -22,6 +25,7 @@ before_deploy:
   - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
   - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:latest"
   - docker tag "$IMAGE_NAME" "${IMAGE_NAME}:${VERSION}"
+  
 deploy:
   provider: script
   script: docker push "${IMAGE_NAME}:latest" && docker push "${IMAGE_NAME}:${VERSION}"
